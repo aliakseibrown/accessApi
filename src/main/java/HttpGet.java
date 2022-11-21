@@ -1,3 +1,4 @@
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -5,6 +6,9 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -24,6 +28,8 @@ import java.lang.Object;
 
 import org.json.JSONTokener;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class HttpGet {
 
@@ -78,16 +84,19 @@ public class HttpGet {
             }
         };
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
             String strResponse = httpClient.execute(httpGet, responseHandler);
+
 
             JsonReader values= new JsonReader();
 
+
             values.makeJsonFile(strResponse);
             values.getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
+            //values.returnIdentification();
 
-
-            //valeus.forEach(System.out::println);
-            //getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
             String s = null;
 //            while(true){
 //                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

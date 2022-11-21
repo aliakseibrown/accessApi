@@ -1,19 +1,31 @@
 import org.json.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class JsonReader {
 
-    public static void makeJsonFile(String str) {
+    public static Map <String,String> returnIdentification(String jsonArrayStr) {
+        List<String> idList;
+        List<String> stationList;
+        Map<String,String> map = new HashMap<String,String>();
+
+        idList = getValuesForGivenKey(jsonArrayStr, "id");
+        stationList = getValuesForGivenKey(jsonArrayStr, "stationName");
+        for(int i = 0; i< idList.size(); i++){
+            map.put(stationList.get(i), idList.get(i));
+        }
+        return map;
+    }
+        public static void makeJsonFile(String str) {
         FileWriter fw = null;
         BufferedWriter bw = null;
         PrintWriter out = null;
