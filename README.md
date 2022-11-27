@@ -1,4 +1,4 @@
-# accessApi
+# reads data of measuring stations
 
 A program that reads data of measuring stations available at: https://powietrze.gios.gov.pl/pjp/content/api
 
