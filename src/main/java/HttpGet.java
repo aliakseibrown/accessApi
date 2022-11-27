@@ -33,13 +33,6 @@ import org.json.simple.parser.ParseException;
 
 public class HttpGet {
 
-//    public static List<String> getValuesForGivenKey(String jsonArrayStr, String key) {
-//        JSONArray jsonArray = new JSONArray(jsonArrayStr);
-//        return IntStream.range(0, jsonArray.length())
-//                .mapToObj(index -> ((JSONObject)jsonArray.get(index)).optString(key))
-//                .collect(Collectors.toList());
-//    }
-
     public static String getIndexFromJSON (String jsonArrayStr, String key) {
         System.out.println("full Array: " + jsonArrayStr);
         String idNum = null;
@@ -61,13 +54,11 @@ public class HttpGet {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /* Create object of CloseableHttpClient */
         CloseableHttpClient httpClient = HttpClients.createDefault();
-
         org.apache.http.client.methods.HttpGet httpGet = new org.apache.http.client.methods.HttpGet("https://api.gios.gov.pl/pjp-api/rest/station/findAll");
         httpGet.addHeader("custom-key", "programming");
-
         ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
             @Override
@@ -83,21 +74,20 @@ public class HttpGet {
                 }
             }
         };
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String strResponse = httpClient.execute(httpGet, responseHandler);
 
-            String strResponse = httpClient.execute(httpGet, responseHandler);
+        JsonReader jsonMethods= new JsonReader(); //created method JsonReader
 
+//        String str = "{\"id\": \"123\"}" ;
+//        JsonNode node =  jsonMethods.parse(str);
+//        System.out.println(node.get("id").asText());
 
-            JsonReader values= new JsonReader();
+        jsonMethods.makeJsonFile(strResponse);
+        jsonMethods.getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
 
+        //values.returnIdentification();
 
-            values.makeJsonFile(strResponse);
-            values.getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
-            //values.returnIdentification();
-
-            String s = null;
+        String s = null;
 //            while(true){
 //                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //                 s = br.readLine();
@@ -108,12 +98,9 @@ public class HttpGet {
 //
 //                System.out.println("Response: " + s);
 //            }
-            //System.out.println("Response: " + strResponse);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+        //System.out.println("Response: " + strResponse);
 
+    }
 }
 
 //    JSONObject obj = HTTP.toJSONObject("POST \"http://www.example.com/\" HTTP/1.1");

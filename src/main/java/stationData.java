@@ -1,4 +1,4 @@
-public class structureJson {
+public class stationData {
     public int id;
     public String stationName;
     public String addressStreet;
@@ -30,5 +30,5 @@ public class structureJson {
 
     public void setAddressStreet(String addressStreet) {this.addressStreet = addressStreet;}
 
-    public structureJson() { }
+    public stationData() { }
 }
