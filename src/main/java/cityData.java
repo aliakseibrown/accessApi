@@ -1,18 +1,18 @@
-public class cityJson {
+public class cityData {
     public int id;
     public String name;
-    communeJson commune;
+    communeData commune;
 
     public int getId() {return id;}
 
     public String getName() {return name;}
 
-    public communeJson getCommune() {return commune;}
+    public communeData getCommune() {return commune;}
 
     public void setId(int id) {this.id = id;}
 
     public void setName(String name) {this.name = name;}
 
-    public void setCommune(communeJson commune) {this.commune = commune;}
-    public cityJson() { };
+    public void setCommune(communeData commune) {this.commune = commune;}
+    public cityData() { };
 }

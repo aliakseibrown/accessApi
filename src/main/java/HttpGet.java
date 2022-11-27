@@ -62,7 +62,7 @@ public class HttpGet {
         ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
             @Override
-            public String handleResponse(HttpResponse httpResponse) throws ClientProtocolException, IOException {
+            public String handleResponse(HttpResponse httpResponse) throws IOException {
                 int httpResponseCode = httpResponse.getStatusLine().getStatusCode();
                 if (httpResponseCode >= 200 && httpResponseCode < 300) {
                     /* Convert response to String */
@@ -82,24 +82,32 @@ public class HttpGet {
 //        JsonNode node =  jsonMethods.parse(str);
 //        System.out.println(node.get("id").asText());
 
-        jsonMethods.makeJsonFile(strResponse);
-        jsonMethods.getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
+        JsonReader.serializationToFile(strResponse, "stationsData");
+        stationData[] list = jsonMethods.deserializationToObject("stationsData");
 
-        //values.returnIdentification();
+        JsonReader.printStations(list);
 
-        String s = null;
-//            while(true){
-//                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//                 s = br.readLine();
-//                 if( s.equals("quit")) break;
-//                 System.out.println("ID: " + getIndexFromJSON(strResponseCopy, s));
-//                 //int id = getValuesForGivenKey(strResponse, "stationName").forEach(System.out::println);
-//                 //i = String.valueOf(Integer.parseInt(s));
-//
-//                System.out.println("Response: " + s);
-//            }
-        //System.out.println("Response: " + strResponse);
+        String s = "";
+            while(true){
+                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                 s = br.readLine();
+                 int idStation = jsonMethods.returnIdentification(list, s);
+                 if( s.equals("quit") || s.equals("exit") || s.equals("break")) break;
+                 System.out.println("ID: " + idStation);
+                 System.out.println("Response: " + s);
+                 if(idStation > 0){
 
+                     System.out.println(jsonMethods.GETindexLevel(idStation));
+                     JsonReader.serializationToFile(jsonMethods.GETindexLevel(idStation), "stationsIndexLevel");
+
+//                     stationIndexLevel ObjectIndex= JsonReader.deserializationIndexLevel("stationsIndexLevel");
+//                     System.out.println(
+//                             ObjectIndex.getId() + " "
+//                                     + ObjectIndex.getStCalcDate() );
+
+
+                 }
+            }
     }
 }
 

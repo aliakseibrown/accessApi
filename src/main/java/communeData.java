@@ -1,4 +1,4 @@
-public class communeJson {
+public class communeData {
     public String communeName;
     public String districtName;
     public String provinceName;
@@ -15,5 +15,5 @@ public class communeJson {
 
     public void setProvinceName(String provinceName) {this.provinceName = provinceName;}
 
-    public communeJson() { }
+    public communeData() { }
 }
