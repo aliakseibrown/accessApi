@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.DocumentException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -54,7 +55,7 @@ public class HttpGet {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DocumentException {
         /* Create object of CloseableHttpClient */
         CloseableHttpClient httpClient = HttpClients.createDefault();
         org.apache.http.client.methods.HttpGet httpGet = new org.apache.http.client.methods.HttpGet("https://api.gios.gov.pl/pjp-api/rest/station/findAll");
@@ -83,8 +84,8 @@ public class HttpGet {
 //        System.out.println(node.get("id").asText());
 
         JsonReader.serializationToFile(strResponse, "stationsData");
+        //jsonMethods.getValuesForGivenKey(strResponse, "stationName").forEach(System.out.println());
         stationData[] list = jsonMethods.deserializationToObject("stationsData");
-
         JsonReader.printStations(list);
 
         String s = "";
@@ -99,9 +100,9 @@ public class HttpGet {
 
                      System.out.println(jsonMethods.GETindexLevel(idStation));
                      JsonReader.serializationToFile(jsonMethods.GETindexLevel(idStation), "stationsIndexLevel");
-
+                     jsonMethods.createPDF("stationsIndexLevel");
 //                     stationIndexLevel ObjectIndex= JsonReader.deserializationIndexLevel("stationsIndexLevel");
-//                     System.out.println(
+//                     System.out.prin tln(
 //                             ObjectIndex.getId() + " "
 //                                     + ObjectIndex.getStCalcDate() );
 
